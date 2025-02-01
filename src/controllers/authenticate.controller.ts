@@ -8,8 +8,8 @@ import {
 import { JwtService } from '@nestjs/jwt'
 import { compare } from 'bcryptjs'
 import { z } from 'zod'
-import { ZodValidationPipe } from 'src/pipes/zod-validation-pipe'
-import { PrismaService } from 'src/prisma/prisma.service'
+import { ZodValidationPipe } from '@/pipes/zod-validation-pipe'
+import { PrismaService } from '@/prisma/prisma.service'
 
 const authenticateBodyScheme = z.object({
   email: z.string().email(),
@@ -43,7 +43,7 @@ export class AuthenticateController {
     }
     const accessToken = this.jwt.sign({ sub: user.id })
     return {
-      accessToken,
+      access_token: accessToken,
     }
   }
 }
