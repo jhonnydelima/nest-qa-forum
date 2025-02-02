@@ -1,0 +1,38 @@
+import { AggregateRoot } from '../entities/aggregate-root'
+import { UniqueIdEntity } from '../entities/unique-id-entity'
+import { DomainEvent } from './domain-event'
+import { DomainEvents } from './domain-events'
+
+class CustomAggregateCreated implements DomainEvent {
+  public ocurredAt: Date
+  private aggregate: CustomAggregate // eslint-disable-line
+
+  constructor(aggregate: CustomAggregate) {
+    this.ocurredAt = new Date()
+    this.aggregate = aggregate
+  }
+
+  public getAggregateId(): UniqueIdEntity {
+    return this.aggregate.id
+  }
+}
+
+class CustomAggregate extends AggregateRoot<null> {
+  static create() {
+    const aggregate = new CustomAggregate(null)
+    aggregate.addDomainEvent(new CustomAggregateCreated(aggregate))
+    return aggregate
+  }
+}
+
+describe('Domain Events', () => {
+  it('should be able to dispatch and listen to events', () => {
+    const callbackSpy = vi.fn()
+    DomainEvents.register(callbackSpy, CustomAggregateCreated.name) // Registered subscriber (listening to event)
+    const aggregate = CustomAggregate.create() // Create event without saving it in the DB
+    expect(aggregate.domainEvents).toHaveLength(1) // Ensure the event was create but not dispatched
+    DomainEvents.dispatchEventsForAggregate(aggregate.id) // Dispatch the event in the DB/Repository when saving the data
+    expect(callbackSpy).toHaveBeenCalled() // Ensure the event was dispatched
+    expect(aggregate.domainEvents).toHaveLength(0)
+  })
+})
