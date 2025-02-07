@@ -1,6 +1,6 @@
 import { Entity } from '@/core/entities/entity'
 
-type StudentProps = {
+export type StudentProps = {
   name: string
   email: string
   password: string
