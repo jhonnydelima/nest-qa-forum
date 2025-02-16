@@ -25,6 +25,8 @@ import { FetchQuestionAnswersController } from './controllers/fetch-question-ans
 import { FetchQuestionAnswersUseCase } from '@/domain/forum/application/use-cases/fetch-question-answers'
 import { ChooseBestAnswerController } from './controllers/choose-best-answer.controller'
 import { ChooseBestAnswerUseCase } from '@/domain/forum/application/use-cases/choose-best-answer'
+import { CommentOnQuestionController } from './controllers/comment-on-question.controller'
+import { CommentOnQuestionUseCase } from '@/domain/forum/application/use-cases/comment-on-question'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -41,6 +43,7 @@ import { ChooseBestAnswerUseCase } from '@/domain/forum/application/use-cases/ch
     DeleteAnswerController,
     FetchQuestionAnswersController,
     ChooseBestAnswerController,
+    CommentOnQuestionController,
   ],
   providers: [
     CreateQuestionUseCase,
@@ -55,6 +58,7 @@ import { ChooseBestAnswerUseCase } from '@/domain/forum/application/use-cases/ch
     DeleteAnswerUseCase,
     FetchQuestionAnswersUseCase,
     ChooseBestAnswerUseCase,
+    CommentOnQuestionUseCase,
   ],
 })
 export class HttpModule {}
