@@ -1,6 +1,6 @@
 import { Entity } from '@/core/entities/entity'
 
-type AttachmentProps = {
+export type AttachmentProps = {
   title: string
   url: string
 }
