@@ -75,4 +75,38 @@ describe('Edit Answer Use Case', () => {
     expect(result.isLeft()).toBe(true)
     expect(result.value).toBeInstanceOf(ResourceNotFoundError)
   })
+
+  it('should sync new and removed attachments when editing an answer', async () => {
+    const newAnswer = makeAnswer()
+    await answersRepository.create(newAnswer)
+    expect(answersRepository.items).toHaveLength(1)
+    answerAttachmentsRepository.items.push(
+      makeAnswerAttachment({
+        answerId: newAnswer.id,
+        attachmentId: new UniqueIdEntity('1'),
+      }),
+      makeAnswerAttachment({
+        answerId: newAnswer.id,
+        attachmentId: new UniqueIdEntity('2'),
+      }),
+    )
+    const result = await sut.execute({
+      answerId: newAnswer.id.toString(),
+      authorId: newAnswer.authorId.toString(),
+      content: 'New Content',
+      attachmentsIds: ['1', '3'],
+    })
+    expect(result.isRight()).toBe(true)
+    expect(answerAttachmentsRepository.items).toHaveLength(2)
+    expect(answerAttachmentsRepository.items).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          attachmentId: new UniqueIdEntity('1'),
+        }),
+        expect.objectContaining({
+          attachmentId: new UniqueIdEntity('3'),
+        }),
+      ]),
+    )
+  })
 })
