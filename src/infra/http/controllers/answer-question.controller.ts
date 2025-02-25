@@ -14,6 +14,7 @@ import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
 
 const answerQuestionBodySchema = z.object({
   content: z.string(),
+  attachments: z.array(z.string().uuid()),
 })
 
 type AnswerQuestionBodySchema = z.infer<typeof answerQuestionBodySchema>
@@ -31,13 +32,13 @@ export class AnswerQuestionController {
     @Param('questionId') questionId: string,
     @Body(bodyValidationPipe) body: AnswerQuestionBodySchema,
   ) {
-    const { content } = body
+    const { content, attachments } = body
     const userId = user.sub
     const result = await this.answerQuestionUseCase.execute({
       questionId,
       authorId: userId,
       content,
-      attachmentsIds: [],
+      attachmentsIds: attachments,
     })
     if (result.isLeft()) {
       throw new BadRequestException()
