@@ -25,7 +25,9 @@ export function makeQuestionAttachment(
 export class QuestionAttachmentFactory {
   constructor(private readonly prisma: PrismaService) {}
 
-  async makePrismaQuestionAttachment(data: Partial<QuestionAttachmentProps> = {}): Promise<QuestionAttachment> {
+  async makePrismaQuestionAttachment(
+    data: Partial<QuestionAttachmentProps> = {},
+  ): Promise<QuestionAttachment> {
     const questionAttachment = makeQuestionAttachment(data)
     await this.prisma.attachment.update({
       where: {

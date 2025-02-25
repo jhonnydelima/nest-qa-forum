@@ -1,10 +1,21 @@
-import { UploadAndCreateAttachmentUseCase } from "@/domain/forum/application/use-cases/upload-and-create-attachment";
-import { BadRequestException, Controller, FileTypeValidator, MaxFileSizeValidator, ParseFilePipe, Post, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { UploadAndCreateAttachmentUseCase } from '@/domain/forum/application/use-cases/upload-and-create-attachment'
+import {
+  BadRequestException,
+  Controller,
+  FileTypeValidator,
+  MaxFileSizeValidator,
+  ParseFilePipe,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 
 @Controller('/attachments')
 export class UploadAttachmentController {
-  constructor(private readonly uploadAndCreateAttachmentUseCase: UploadAndCreateAttachmentUseCase) {}
+  constructor(
+    private readonly uploadAndCreateAttachmentUseCase: UploadAndCreateAttachmentUseCase,
+  ) {}
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
@@ -17,10 +28,11 @@ export class UploadAttachmentController {
           }),
           new FileTypeValidator({
             fileType: '.(png|jpg|jpeg|pdf)',
-          })
-        ]
-      })
-    ) file: Express.Multer.File
+          }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
   ) {
     const result = await this.uploadAndCreateAttachmentUseCase.execute({
       fileName: file.originalname,
@@ -32,7 +44,7 @@ export class UploadAttachmentController {
     }
     const { attachment } = result.value
     return {
-      attachmentId: attachment.id.toString()
+      attachmentId: attachment.id.toString(),
     }
   }
 }

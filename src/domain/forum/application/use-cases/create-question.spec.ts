@@ -2,7 +2,6 @@ import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questio
 import { CreateQuestionUseCase } from './create-question'
 import { UniqueIdEntity } from '@/core/entities/unique-id-entity'
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments-repository'
-import { a } from 'vitest/dist/chunks/suite.BJU7kdY9'
 
 let questionAttachmentsRepository: InMemoryQuestionAttachmentsRepository
 let questionsRepository: InMemoryQuestionsRepository
@@ -48,9 +47,9 @@ describe('Create Question Use Case', () => {
           attachmentId: new UniqueIdEntity('1'),
         }),
         expect.objectContaining({
-          attachmentId: new UniqueIdEntity('1'),
-        })
-      ])
+          attachmentId: new UniqueIdEntity('2'),
+        }),
+      ]),
     )
   })
 })

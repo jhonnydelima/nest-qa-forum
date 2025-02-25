@@ -28,7 +28,7 @@ describe('Upload and Create Attachment Use Case', () => {
     expect(uploader.uploads[0]).toEqual(
       expect.objectContaining({
         fileName: 'file.png',
-      })
+      }),
     )
   })
 

@@ -112,8 +112,8 @@ describe('Edit Question Use Case', () => {
         }),
         expect.objectContaining({
           attachmentId: new UniqueIdEntity('3'),
-        })
-      ])
+        }),
+      ]),
     )
   })
 })

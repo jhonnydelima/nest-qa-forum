@@ -22,7 +22,12 @@ describe('Edit question (E2E)', () => {
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [StudentFactory, QuestionFactory, AttachmentFactory, QuestionAttachmentFactory],
+      providers: [
+        StudentFactory,
+        QuestionFactory,
+        AttachmentFactory,
+        QuestionAttachmentFactory,
+      ],
     }).compile()
     app = moduleRef.createNestApplication()
     studentFactory = moduleRef.get(StudentFactory)
@@ -72,19 +77,19 @@ describe('Edit question (E2E)', () => {
     expect(questionOnDatabase).toBeTruthy()
     const attachmentsOnDatabase = await prisma.attachment.findMany({
       where: {
-        questionId: questionOnDatabase?.id
-      }
+        questionId: questionOnDatabase?.id,
+      },
     })
     expect(attachmentsOnDatabase).toHaveLength(2)
     expect(attachmentsOnDatabase).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          id: attachment1.id.toString()
+          id: attachment1.id.toString(),
         }),
         expect.objectContaining({
-          id: attachment3.id.toString()
+          id: attachment3.id.toString(),
         }),
-      ])
+      ]),
     )
   })
 })

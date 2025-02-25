@@ -1,6 +1,5 @@
 import { AppModule } from '@/infra/app.module'
 import { DatabaseModule } from '@/infra/database/database.module'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import { INestApplication } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Test } from '@nestjs/testing'
@@ -9,7 +8,6 @@ import { StudentFactory } from 'test/factories/make-student'
 
 describe('Upload attachment (E2E)', () => {
   let app: INestApplication
-  let prisma: PrismaService
   let studentFactory: StudentFactory
   let jwt: JwtService
 
@@ -19,7 +17,6 @@ describe('Upload attachment (E2E)', () => {
       providers: [StudentFactory],
     }).compile()
     app = moduleRef.createNestApplication()
-    prisma = moduleRef.get(PrismaService)
     studentFactory = moduleRef.get(StudentFactory)
     jwt = moduleRef.get(JwtService)
     await app.init()

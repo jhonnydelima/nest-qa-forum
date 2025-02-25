@@ -1,9 +1,9 @@
-import { Either, left, right } from "@/core/either";
-import { Injectable } from "@nestjs/common";
-import { InvalidAttachmentTypeError } from "./errors/invalid-attachment-type-error";
-import { Attachment } from "../../enterprise/entities/attachment";
-import { AttachmentsRepository } from "../repositories/attachments-repository";
-import { Uploader } from "../storage/uploader";
+import { Either, left, right } from '@/core/either'
+import { Injectable } from '@nestjs/common'
+import { InvalidAttachmentTypeError } from './errors/invalid-attachment-type-error'
+import { Attachment } from '../../enterprise/entities/attachment'
+import { AttachmentsRepository } from '../repositories/attachments-repository'
+import { Uploader } from '../storage/uploader'
 
 type UploadAndCreateAttachmentUseCaseRequest = {
   fileName: string
@@ -24,7 +24,9 @@ export class UploadAndCreateAttachmentUseCase {
   ) {}
 
   async execute({
-    fileName, fileType, body
+    fileName,
+    fileType,
+    body,
   }: UploadAndCreateAttachmentUseCaseRequest): Promise<UploadAndCreateAttachmentUseCaseResponse> {
     if (!/^(image\/(jpg|jpeg|png))$|^application\/pdf$/.test(fileType)) {
       return left(new InvalidAttachmentTypeError(fileType))

@@ -26,7 +26,9 @@ export function makeAttachment(
 export class AttachmentFactory {
   constructor(private readonly prisma: PrismaService) {}
 
-  async makePrismaAttachment(data: Partial<AttachmentProps> = {}): Promise<Attachment> {
+  async makePrismaAttachment(
+    data: Partial<AttachmentProps> = {},
+  ): Promise<Attachment> {
     const attachment = makeAttachment(data)
     await this.prisma.attachment.create({
       data: PrismaAttachmentMapper.toPrisma(attachment),

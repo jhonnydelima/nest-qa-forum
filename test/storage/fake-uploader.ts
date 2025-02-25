@@ -1,4 +1,7 @@
-import { Uploader, UploadParams } from '@/domain/forum/application/storage/uploader'
+import {
+  Uploader,
+  UploadParams,
+} from '@/domain/forum/application/storage/uploader'
 import { randomUUID } from 'node:crypto'
 
 type Upload = {
