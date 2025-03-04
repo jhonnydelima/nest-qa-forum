@@ -12,7 +12,7 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
 
   constructor(
     private readonly questionAttachmentsRepository: InMemoryQuestionAttachmentsRepository,
-    private readonly attachmentRepository: InMemoryAttachmentsRepository,
+    private readonly attachmentsRepository: InMemoryAttachmentsRepository,
     private readonly studentsRepository: InMemoryStudentsRepository,
   ) {}
 
@@ -51,7 +51,7 @@ export class InMemoryQuestionsRepository implements QuestionsRepository {
       },
     )
     const attachments = questionAttachments.map((questionAttachment) => {
-      const attachment = this.attachmentRepository.items.find((attachment) => {
+      const attachment = this.attachmentsRepository.items.find((attachment) => {
         return attachment.id.equals(questionAttachment.attachmentId)
       })
       if (!attachment) {
