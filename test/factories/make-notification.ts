@@ -32,11 +32,9 @@ export class NotificationFactory {
     data: Partial<NotificationProps> = {},
   ): Promise<Notification> {
     const notification = makeNotification(data)
-
     await this.prisma.notification.create({
       data: PrismaNotificationMapper.toPrisma(notification),
     })
-
     return notification
   }
 }

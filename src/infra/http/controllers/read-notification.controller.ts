@@ -23,7 +23,6 @@ export class ReadNotificationController {
       notificationId,
       recipientId: user.sub,
     })
-
     if (result.isLeft()) {
       throw new BadRequestException()
     }

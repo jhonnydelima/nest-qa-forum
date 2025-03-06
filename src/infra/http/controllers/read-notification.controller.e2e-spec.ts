@@ -20,13 +20,11 @@ describe('Read notification (E2E)', () => {
       imports: [AppModule, DatabaseModule],
       providers: [StudentFactory, NotificationFactory],
     }).compile()
-
     app = moduleRef.createNestApplication()
     prisma = moduleRef.get(PrismaService)
     studentFactory = moduleRef.get(StudentFactory)
     notificationFactory = moduleRef.get(NotificationFactory)
     jwt = moduleRef.get(JwtService)
-
     await app.init()
   })
 
@@ -34,28 +32,21 @@ describe('Read notification (E2E)', () => {
     const user = await studentFactory.makePrismaStudent({
       name: 'John Doe',
     })
-
     const accessToken = jwt.sign({ sub: user.id.toString() })
-
     const notification = await notificationFactory.makePrismaNotification({
       recipientId: user.id,
     })
-
     const notificationId = notification.id.toString()
-
     const response = await request(app.getHttpServer())
       .patch(`/notifications/${notificationId}/read`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send()
-
     expect(response.statusCode).toBe(204)
-
     const notificationOnDatabase = await prisma.notification.findFirst({
       where: {
         recipientId: user.id.toString(),
       },
     })
-
     expect(notificationOnDatabase?.readAt).not.toBeNull()
   })
 })
